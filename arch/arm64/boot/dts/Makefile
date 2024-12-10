@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: GPL-2.0
+ifeq ($(CONFIG_SOC_S5E8845), y)
+subdir-y += exynos
+subdir-y += samsung
+else
 subdir-y += actions
 subdir-y += allwinner
 subdir-y += altera
@@ -33,3 +37,4 @@ subdir-y += tesla
 subdir-y += ti
 subdir-y += toshiba
 subdir-y += xilinx
+endif
