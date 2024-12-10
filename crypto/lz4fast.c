@@ -127,4 +127,3 @@ module_exit(lz4fast_mod_fini);
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("LZ4FAST Compression Algorithm");
 MODULE_ALIAS_CRYPTO("lz4fast");
-
