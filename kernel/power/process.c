@@ -93,7 +93,7 @@ static int try_to_freeze_tasks(bool user_only)
 	elapsed_msecs = ktime_to_ms(elapsed);
 
 	if (wakeup) {
-		pr_err("Freezing of tasks aborted after %d.%03d seconds",
+		pr_debug("Freezing of tasks aborted after %d.%03d seconds",
 		       elapsed_msecs / 1000, elapsed_msecs % 1000);
 	} else if (todo) {
 		pr_auto(ASL1, "Freezing of tasks failed after %d.%03d seconds"
@@ -121,7 +121,7 @@ static int try_to_freeze_tasks(bool user_only)
 
 		trace_android_vh_try_to_freeze_todo(todo, elapsed_msecs, wq_busy);
 	} else {
-		pr_info("Freezing %s completed (elapsed %d.%03d seconds)\n",
+		pr_debug("Freezing %s completed (elapsed %d.%03d seconds)\n",
 			what, elapsed_msecs / 1000, elapsed_msecs % 1000);
 	}
 
@@ -208,7 +208,7 @@ void thaw_processes(void)
 
 	oom_killer_enable();
 
-	pr_info("Restarting tasks ... ");
+	pr_debug("Restarting tasks ... ");
 
 	__usermodehelper_set_disable_depth(UMH_FREEZING);
 	thaw_workqueues();
@@ -230,7 +230,7 @@ void thaw_processes(void)
 
 	schedule();
 	pr_cont("done.\n");
-	trace_suspend_resume(TPS("thaw_processes"), 0, false);
+ 	trace_suspend_resume(TPS("thaw_processes"), 0, false);
 }
 
 void thaw_kernel_threads(void)

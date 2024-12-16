@@ -13,7 +13,6 @@
 #include <linux/version.h>
 #include "sec_adc.h"
 
-#define DEBUG
 #if defined(CONFIG_SEC_KUNIT)
 #include <kunit/mock.h>
 #endif
