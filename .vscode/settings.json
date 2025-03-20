@@ -1,0 +1,7 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "cpufreq_ondemand.h": "c",
+        "percpu-defs.h": "c"
+    }
+}
