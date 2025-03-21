@@ -983,6 +983,7 @@ void tracing_on(void)
 {
 	tracer_tracing_on(&global_trace);
 }
+EXPORT_SYMBOL_GPL(tracing_on);
 
 
 static __always_inline void
@@ -1491,6 +1492,7 @@ int tracing_is_on(void)
 {
 	return tracer_tracing_is_on(&global_trace);
 }
+EXPORT_SYMBOL_GPL(tracing_is_on);
 
 static int __init set_buf_size(char *str)
 {

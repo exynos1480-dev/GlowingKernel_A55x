@@ -360,13 +360,7 @@ endif
 DTC_FLAGS += $(DTC_FLAGS_$(basetarget))
 
 # Set -@ if the target is a base DTB that overlay is applied onto
-ifeq ($(CONFIG_OF_SYMBOLS),y)
-	# Add symbols in all devicetrees
-	DTC_FLAGS += -@
-else
-	# Set -@ if the target is a base DTB that overlay is applied onto
-	DTC_FLAGS += $(if $(filter $(patsubst $(obj)/%,%,$@), $(base-dtb-y)), -@)
-endif
+DTC_FLAGS += $(if $(filter $(patsubst $(obj)/%,%,$@), $(base-dtb-y)), -@)
 
 # Generate an assembly file to wrap the output of the device tree compiler
 quiet_cmd_dt_S_dtb= DTB     $@
