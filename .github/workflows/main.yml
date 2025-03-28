@@ -20,10 +20,14 @@ jobs:
             attr libelf-dev dwarves rsync libbrotli-dev \
             libgtest-dev libprotobuf-dev libunwind-dev libusb-1.0-0-dev libzstd-dev libc6-dev \
             linux-modules-extra-$(uname -r) build-essential p7zip-full libarchive-tools \
-            wget unzip
-          wget https://releases.bazel.build/5.0.0/bazel-5.0.0-installer-linux-x86_64.sh
-          chmod +x bazel-5.0.0-installer-linux-x86_64.sh
-          ./bazel-5.0.0-installer-linux-x86_64.sh --user
+            wget unzip curl
+          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
+          sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
+          sudo apt update && sudo apt install apt-transport-https curl gnupg
+          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
+          sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
+          sudo apt update && sudo apt install bazel-5.0.0
+          sudo apt update && sudo apt full-upgrade
           export PATH="$HOME/bin:$PATH"
           bazel version
 
@@ -50,7 +54,7 @@ jobs:
 
       - name: Package Kernel with AnyKernel3
         run: |
-          # Credit to Vaz15k for this action, modified for this
+          # Credit to Vax15k for this entire action
           git clone --branch main https://github.com/ducthoe/AnyKernel3.git ~/AnyKernel3
           mkdir -p ~/files
           ./build_kernel.sh
