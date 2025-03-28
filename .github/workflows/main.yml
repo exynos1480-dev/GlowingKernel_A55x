@@ -21,14 +21,10 @@ jobs:
             libgtest-dev libprotobuf-dev libunwind-dev libusb-1.0-0-dev libzstd-dev libc6-dev \
             linux-modules-extra-$(uname -r) build-essential p7zip-full libarchive-tools \
             wget unzip curl
-          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
-          sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
-          sudo apt update && sudo apt install apt-transport-https curl gnupg
-          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
-          sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
-          sudo apt update && sudo apt install bazel-5.0.0
-          sudo apt update && sudo apt full-upgrade
-          export PATH="$HOME/bin:$PATH"
+          # Install Bazelisk
+          curl -fsSL https://github.com/bazelbuild/bazelisk/releases/download/v1.8.0/bazelisk-linux-amd64 -o /usr/local/bin/bazel
+          sudo chmod +x /usr/local/bin/bazel
+          # Verify Bazel installation
           bazel version
 
       - name: Clone glowingkernel_a556e repository
@@ -48,13 +44,12 @@ jobs:
 
       - name: Build Kernel with Bazel
         run: |
-          export PATH="$HOME/bin:$PATH"
           tools/bazel run --nocheck_bzl_visibility --config=stamp --sandbox_debug --verbose_failures --debug_make_verbosity=I //projects/s5e8845:s5e8845_user_dist
         working-directory: ${{ github.workspace }}
 
       - name: Package Kernel with AnyKernel3
         run: |
-          # Credit to Vax15k for this entire action
+          # Credit to Vaz15k for his work on this action
           git clone --branch main https://github.com/ducthoe/AnyKernel3.git ~/AnyKernel3
           mkdir -p ~/files
           ./build_kernel.sh
