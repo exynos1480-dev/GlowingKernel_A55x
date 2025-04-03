@@ -32,7 +32,7 @@ Download:
 
 ## KernelSU Next app
 
-Download the latest version [here](https://github.com/KernelSU-Next/KernelSU-Next/releases/download/v1.0.5/KernelSU_Next_v1.0.5_12430-release.apk)
+Download the latest version [here](https://github.com/KernelSU-Next/KernelSU-Next/releases/download/v1.0.6/KernelSU_Next_v1.0.6_12490-release.apk)
 Install whatever module, give apps superuser etc...
 
 ## Credits:
