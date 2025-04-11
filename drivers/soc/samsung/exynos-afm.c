@@ -1,4 +1,4 @@
-/*
+	/*
  * Copyright (c) 2017 Samsung Electronics Co., Ltd.
  *		http://www.samsung.com/
  *
@@ -204,16 +204,11 @@ static unsigned int get_afm_target_max_limit(struct afm_domain *afm_dom)
 	/* Find the position of the current frequency in the frequency table. */
 	index = get_afm_freq_index(stats, afm_dom->clipped_freq);
 
-	/* Find target max limit that lower by "down_step" than current max limit */
-	index -= afm_dom->down_step;
-	if (index < 0)
-		index = 0;
-	else if (index >= stats->max_state)
-		index = stats->max_state - 1;
+/* Return itself */
+ret_freq = stats->freq_table[index];  /* Use the index directly without any modification */
 
-	ret_freq = stats->freq_table[index];
+return ret_freq; 
 
-	return ret_freq;
 }
 
 static void set_afm_max_limit(struct afm_domain *afm_dom, bool set_max_limit)

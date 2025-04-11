@@ -1508,6 +1508,12 @@ static int init_domain(struct exynos_cpufreq_domain *domain, struct device_node 
 	if (!of_property_read_u32(dn, "min-freq", &freq))
 		domain->min_freq = max(domain->min_freq, freq);
 
+    if (domain->id ==1) { //BIG
+		    domain->boot_freq = 3000000;
+	} else if (domain->id == 0) {
+            domain->boot_freq = 2200000;
+	} // Credit from Gabriel2392 ExynosUnbound work, cool shit
+
 	/* Get freq-table from device tree and cut the out of range */
 	raw_table_size = of_property_count_u32_elems(dn, "freq-table");
 	if (of_property_read_u32_array(dn, "freq-table", freq_table, raw_table_size)) {
@@ -1589,20 +1595,19 @@ static int init_domain(struct exynos_cpufreq_domain *domain, struct device_node 
 	}
 
 	kfree(fv_table);
-
+	
 	/*
-	 * Initialize boot and resume freq.
-	 * If cal returns invalid freq, set as min freq for workaround.
+	 * Initialize resume freq and current operating freq.
 	 */
-	domain->boot_freq = cal_dfs_get_boot_freq(domain->cal_id);
-	if (!is_within_range(domain->boot_freq, domain->min_freq, domain->max_freq))
-		domain->boot_freq = domain->min_freq;
+	 domain->resume_freq = cal_dfs_get_resume_freq(domain->cal_id);
 
-	domain->resume_freq = cal_dfs_get_resume_freq(domain->cal_id);
-	if (!is_within_range(domain->resume_freq, domain->min_freq, domain->max_freq))
-		domain->resume_freq = domain->min_freq;
-
-	mutex_init(&domain->lock);
+	 domain->old = get_freq(domain);
+ 
+	 if (!is_within_range(domain->old, domain->min_freq, domain->max_freq))
+		 domain->old = domain->min_freq;
+ 
+	 mutex_init(&domain->lock);
+ 
 
 	/*
 	 * Initialize CPUFreq DVFS Manager
