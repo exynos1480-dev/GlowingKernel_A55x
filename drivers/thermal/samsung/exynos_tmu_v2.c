@@ -3180,6 +3180,21 @@ static int exynos_tmu_parse_ect(struct exynos_tmu_data *data)
 
 		for (i = 0; i < function->num_of_range; ++i) {
 			temperature = function->range_list[i].lower_bound_temperature;
+
+		if (function->range_list[i].max_frequency >= 2600000) {
+				// BIG core OC: bump anything 2.6 GHz and up to 3.0 GHz
+				function->range_list[i].max_frequency = 3000000;
+			
+		} else if (function->range_list[i].max_frequency >= 2000000 &&
+					   function->range_list[i].max_frequency < 2600000) {
+				// LITTLE core OC: bump 2.0 GHz and up to <2.6 GHz to 2.2 GHz
+				function->range_list[i].max_frequency = 2200000;
+			
+		} else if (function->range_list[i].max_frequency == 960000) {
+				// Lowest state jumps to 2.0 GHz
+				function->range_list[i].max_frequency = 2000000;
+		}
+		
 			freq = function->range_list[i].max_frequency;
 			tz->ops->set_trip_temp(tz, i, temperature  * MCELSIUS);
 

@@ -1508,6 +1508,12 @@ static int init_domain(struct exynos_cpufreq_domain *domain, struct device_node 
 	if (!of_property_read_u32(dn, "min-freq", &freq))
 		domain->min_freq = max(domain->min_freq, freq);
 
+	if (domain->id == 1) { // BIG
+			domain->boot_freq = 2400000;
+		} else if (domain->id == 0) {
+			domain->boot_freq = 2002000;
+	}
+
 	/* Get freq-table from device tree and cut the out of range */
 	raw_table_size = of_property_count_u32_elems(dn, "freq-table");
 	if (of_property_read_u32_array(dn, "freq-table", freq_table, raw_table_size)) {
@@ -1590,20 +1596,19 @@ static int init_domain(struct exynos_cpufreq_domain *domain, struct device_node 
 
 	kfree(fv_table);
 
-	/*
-	 * Initialize boot and resume freq.
-	 * If cal returns invalid freq, set as min freq for workaround.
-	 */
-	domain->boot_freq = cal_dfs_get_boot_freq(domain->cal_id);
-	if (!is_within_range(domain->boot_freq, domain->min_freq, domain->max_freq))
-		domain->boot_freq = domain->min_freq;
-
-	domain->resume_freq = cal_dfs_get_resume_freq(domain->cal_id);
-	if (!is_within_range(domain->resume_freq, domain->min_freq, domain->max_freq))
-		domain->resume_freq = domain->min_freq;
-
-	mutex_init(&domain->lock);
-
+    /*
+    * Initialize boot and resume freq.
+    * Overridden for overclocking: boot_freq set to max_freq directly.
+    */
+    domain->boot_freq = domain->max_freq; 
+    // Skip range check since we're forcing it
+ 
+    domain->resume_freq = cal_dfs_get_resume_freq(domain->cal_id);
+    if (!is_within_range(domain->resume_freq, domain->min_freq, domain->max_freq))
+	domain->resume_freq = domain->min_freq;
+ 
+    mutex_init(&domain->lock);
+ 
 	/*
 	 * Initialize CPUFreq DVFS Manager
 	 * DVFS Manager is the optional function, it does not check return value

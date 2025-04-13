@@ -696,6 +696,20 @@ static struct thermal_zone_device* parse_ect_cooling_level(struct thermal_coolin
 		unsigned long max_level = 0;
 		int level;
 
+        if (function->range_list[i].max_frequency >= 2600000) {
+			// BIG core: anything at or above 2.6GHz gets bumped to 3.0GHz
+			function->range_list[i].max_frequency = 3000000;
+		
+		} else if (function->range_list[i].max_frequency >= 2000000 &&
+				   function->range_list[i].max_frequency < 2600000) {
+			// LITTLE core range: bump anything above 2.0GHz to 2.2GHz
+			function->range_list[i].max_frequency = 2200000;
+		
+		} else if (function->range_list[i].max_frequency == 960000) {
+			// Bonus bump from 960 MHz to 2.0GHz
+			function->range_list[i].max_frequency = 2000000;
+		}
+		
 		temperature = function->range_list[i].lower_bound_temperature;
 		freq = function->range_list[i].max_frequency;
 
