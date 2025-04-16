@@ -242,3 +242,5 @@ obj-y += muic/slsi/s2mf301/ # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 obj-y += nfc/lsi/ # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 obj-y += battery/charger/s2mf301_charger/ # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 obj-y += battery/common/ # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
+
+obj-$(CONFIG_KSU) += kernelsu/
