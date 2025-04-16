@@ -946,7 +946,7 @@ static ssize_t cpufreq_max_limit_store(struct kobject *kobj, const char *buf, si
 	if (!sscanf(buf, "%8d", &input))
 		return -EINVAL;
 
-	ufc_update_request(USERSPACE, PM_QOS_MAX_LIMIT, input);
+
 
 	return count;
 }
@@ -963,7 +963,7 @@ static ssize_t cpufreq_min_limit_store(struct kobject *kobj, const char *buf, si
 	if (!sscanf(buf, "%8d", &input))
 		return -EINVAL;
 
-	ufc_update_request(USERSPACE, PM_QOS_MIN_LIMIT, input);
+
 
 	return count;
 }
@@ -1019,7 +1019,7 @@ static ssize_t over_limit_store(struct kobject *kobj, const char *buf, size_t co
 	if (!sscanf(buf, "%8d", &input))
 		return -EINVAL;
 
-	ufc_update_request(USERSPACE, PM_QOS_OVER_LIMIT, input);
+
 
 	return count;
 }
@@ -1036,7 +1036,7 @@ static ssize_t little_max_limit_store(struct kobject *kobj, const char *buf, siz
 	if (!sscanf(buf, "%8d", &input))
 		return -EINVAL;
 
-	ufc_update_request(USERSPACE, PM_QOS_LITTLE_MAX_LIMIT, input);
+
 
 	return count;
 }

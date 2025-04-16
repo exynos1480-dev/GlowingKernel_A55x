@@ -15,7 +15,7 @@
 
 #include <dt-bindings/soc/samsung/cpupm.h>
 
-/ {
+ / {
 
 	power-data {
 
@@ -31,28 +31,21 @@
 
 		cpu {
 			ananke-power-data {
-				/* default power data */
 				cpus = CPU_CL0;
 				capacity-dmips-mhz = <CPUCL0_DMIPS_PER_MHZ>;
 				dynamic-power-coefficient = <CPUCL0_DP_COEFF>;
 				tz-name = "LITTLE";
-
-				/* dynamic power w/ ECT */
 				ect-coeff-idx = <1>;
 			};
 			hercules-power-data {
-				/* default power data */
 				cpus = CPU_CL1;
 				capacity-dmips-mhz = <CPUCL1_DMIPS_PER_MHZ>;
 				dynamic-power-coefficient = <CPUCL1_DP_COEFF>;
 				tz-name = "BIG";
-
-				/* dynamic power w/ ECT */
 				ect-coeff-idx = <0>;
 			};
 		};
 		dsu {
-			/* dynamic power w/ ECT */
 			ect-coeff-idx = <5>;
 		};
 	};
@@ -221,36 +214,36 @@
 		method = "smc";
 
 		CPU_PD0: power-domain-cpu0 {
-		#power-domain-cells = <0>;
-		domain-idle-states = <&KLEIN_CPU_SLEEP>, <&SYSTEM_SLEEP>;
+			#power-domain-cells = <0>;
+			domain-idle-states = <&KLEIN_CPU_SLEEP>, <&SYSTEM_SLEEP>;
 		};
 		CPU_PD1: power-domain-cpu1 {
-		#power-domain-cells = <0>;
-		domain-idle-states = <&ANANKE_CPU_SLEEP>;
+			#power-domain-cells = <0>;
+			domain-idle-states = <&ANANKE_CPU_SLEEP>;
 		};
 		CPU_PD2: power-domain-cpu2 {
-		#power-domain-cells = <0>;
-		domain-idle-states = <&ANANKE_CPU_SLEEP>;
+			#power-domain-cells = <0>;
+			domain-idle-states = <&ANANKE_CPU_SLEEP>;
 		};
 		CPU_PD3: power-domain-cpu3 {
-		#power-domain-cells = <0>;
-		domain-idle-states = <&ANANKE_CPU_SLEEP>;
+			#power-domain-cells = <0>;
+			domain-idle-states = <&ANANKE_CPU_SLEEP>;
 		};
 		CPU_PD4: power-domain-cpu4 {
-		#power-domain-cells = <0>;
-		domain-idle-states = <&HERCULES_CPU_SLEEP>;
+			#power-domain-cells = <0>;
+			domain-idle-states = <&HERCULES_CPU_SLEEP>;
 		};
 		CPU_PD5: power-domain-cpu5 {
-		#power-domain-cells = <0>;
-		domain-idle-states = <&HERCULES_CPU_SLEEP>;
+			#power-domain-cells = <0>;
+			domain-idle-states = <&HERCULES_CPU_SLEEP>;
 		};
 		CPU_PD6: power-domain-cpu6 {
-		#power-domain-cells = <0>;
-		domain-idle-states = <&HERCULES_CPU_SLEEP>;
+			#power-domain-cells = <0>;
+			domain-idle-states = <&HERCULES_CPU_SLEEP>;
 		};
 		CPU_PD7: power-domain-cpu7 {
-		#power-domain-cells = <0>;
-		domain-idle-states = <&HERCULES_CPU_SLEEP>;
+			#power-domain-cells = <0>;
+			domain-idle-states = <&HERCULES_CPU_SLEEP>;
 		};
 	};
 
@@ -328,17 +321,17 @@
 			dm-type = <DM_CPUCL0>;
 			dss-type = <ESS_FLAG_CPU_CL0>;
 
-			max-freq = <2050000>;
+			max-freq = <2200000>;
 			min-freq = <533000>;
 
 			fast-switch;
 			thread-run-on = "0-3";
 
-			#cooling-cells = <2>; /* min followed by max */
+			#cooling-cells = <2>;
 			ect-coeff-index = <1>;
 			tz-cooling-name = "LITTLE";
 
-			freq-table = <   533000
+			freq-table = <  533000
 					 672000
 					 768000
 					 864000
@@ -353,7 +346,8 @@
 					1728000
 					1824000
 					1920000
-					2050000 >;
+					2050000
+					2200000>;
 		};
 
 		cpufreq_domain1: domain@1 {
@@ -362,17 +356,17 @@
 			dm-type = <DM_CPUCL1>;
 			dss-type = <ESS_FLAG_CPU_CL1>;
 
-			max-freq = <2750000>;
+			max-freq = <3000000>;
 			min-freq = <533000>;
 
 			fast-switch;
 			thread-run-on = "0-3";
 
-			#cooling-cells = <2>; /* min followed by max */
+			#cooling-cells = <2>;
 			ect-coeff-index = <0>;
 			tz-cooling-name = "BIG";
 
-			freq-table = <   533000
+			freq-table = <  533000
 					 672000
 					 768000
 					 864000
@@ -395,7 +389,10 @@
 					2496000
 					2592000
 					2688000
-					2750000 >;
+					2750000
+					2850000
+					2950000
+					3000000>;
 		};
 	};
 
@@ -407,7 +404,7 @@
 			slave-cal-id = <ACPM_DVFS_MIF>;
 			dynamic-disable;
 
-			normal {        /* CPU    MIF */
+			normal {
 				table = <  533000        0
 					   672000        0
 					   768000        0
@@ -423,7 +420,8 @@
 					  1728000        0
 					  1824000        0
 					  1920000        0
-					  2050000        0 >;
+					  2050000        0
+					  2200000        0>;
 			};
 		};
 		big_mif_perf: dm-table@1 {
@@ -433,7 +431,7 @@
 			slave-cal-id = <ACPM_DVFS_MIF>;
 			dynamic-disable;
 
-			normal {        /* CPU    MIF */
+			normal {
 				table = <  533000        0
 					   672000        0
 					   768000        0
@@ -449,15 +447,18 @@
 					  1728000        0
 					  1824000        0
 					  1920000        0
-					  2016000  2093000
-					  2112000  2288000
-					  2208000  2288000
-					  2304000  2535000
-					  2400000  2730000
-					  2496000  3172000
-					  2592000  3172000
-					  2688000  3172000
-					  2750000  3172000 >;
+					  2016000    2093000
+					  2112000    2288000
+					  2208000    2288000
+					  2304000    2535000
+					  2400000    2730000
+					  2496000    3172000
+					  2592000    3172000
+					  2688000    3172000
+					  2750000    3172000
+					  2850000    3172000
+					  2950000    3172000
+					  3000000    3172000>;
 			};
 		};
 		lit_dsu_perf: dm-table@2 {
@@ -466,7 +467,7 @@
 			master-cal-id = <ACPM_DVFS_CPUCL0>;
 			slave-cal-id = <ACPM_DVFS_DSU>;
 
-			normal {        /* CPU    DSU */
+			normal {
 				table = <  533000   384000
 					   672000   432000
 					   768000   528000
@@ -482,7 +483,7 @@
 					  1728000  1152000
 					  1824000  1200000
 					  1920000  1248000
-					  2050000  1344000 >;
+					  2050000  1344000>;
 			};
 		};
 		big_dsu_perf: dm-table@3 {
@@ -491,7 +492,7 @@
 			master-cal-id = <ACPM_DVFS_CPUCL1>;
 			slave-cal-id = <ACPM_DVFS_DSU>;
 
-			normal {        /* CPU    DSU */
+			normal {
 				table = <  533000   384000
 					   672000   432000
 					   768000   528000
@@ -515,7 +516,9 @@
 					  2496000  1728000
 					  2592000  1776000
 					  2688000  1872000
-					  2750000  1920000 >;
+					  2850000  1968000
+					  2950000  2016000
+					  3000000  2064000>;
 			};
 		};
 	};
@@ -599,14 +602,11 @@
 			};
 
 			limits {
-				/* lowest frequency at or above target */
 				#define MIN_LIMIT	0
-				/* highest frequency below or at target */
 				#define MAX_LIMIT	1
 
 				max-limit {
 					relation = <MAX_LIMIT>;
-					/* VFREQ    BIG    LIT   EMS STRICT */
 					table = < 2750000 2750000 2050000 0 0
 						2688000 2688000 2050000 0 0
 						2592000 2592000 2050000 0 0
@@ -630,12 +630,10 @@
 						 864000  864000 1536000 0 0
 						 768000  768000 1536000 0 0
 						 672000  672000 1536000 0 0
-						 533000  533000 1536000 0 0 >;
-					/* fill little freq automatically */
+						 533000  533000 1536000 0 0>;
 				};
 				min-limit {
 					relation = <MIN_LIMIT>;
-					/* VFREQ   BIG     LIT   EMS STRICT */
 					table = < 2750000 2750000 2050000 2 1
 						2688000 2688000 2050000 2 1
 						2592000 2592000 2050000 2 1
@@ -659,8 +657,7 @@
 						 864000  864000  768000 0 1
 						 768000  768000  768000 0 1
 						 672000  672000  768000 0 1
-						 533000  533000  768000 0 1 >;
-					/* fill little freq automatically */
+						 533000  533000  768000 0 1>;
 				};
 			};
 		};
@@ -682,7 +679,7 @@
 			s2mps-afm-offset = <0x55>;
 			htu-base-addr = <0x10840000>;
 			down-step = <1>;
-			max-freq-wo-afm = <2002000>;
+			max-freq-wo-afm = <2200000>;
 			release-duration = <15>;
 		};
 
@@ -695,7 +692,7 @@
 			s2mps-afm-offset = <0x31>;
 			htu-base-addr = <0x10850000>;
 			down-step = <1>;
-			max-freq-wo-afm = <2002000>;
+			max-freq-wo-afm = <3000000>;
 			release-duration = <15>;
 		};
 	};
