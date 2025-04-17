@@ -566,7 +566,8 @@ static int ect_parse_ap_thermal_function(int parser_version, void *address, stru
 		ect_parse_integer(&address, &range->upper_bound_temperature);
 		ect_parse_integer(&address, &range->max_frequency);
 
-		if (range->max_frequency == 2750000 ||
+		if (range->max_frequency == 3000000 ||
+			range->max_frequency == 2750000 ||
 			range->max_frequency == 2688000 ||
 			range->max_frequency == 2592000 ||
 			range->max_frequency == 2496000 ||
@@ -575,8 +576,6 @@ static int ect_parse_ap_thermal_function(int parser_version, void *address, stru
 			range->max_frequency == 2112000 ||
 			range->max_frequency == 2016000 ||
 			range->max_frequency == 1920000) {
-		
-			range->max_frequency = 3000000; // 3.0GHz for big cores
 		
 		} else if (range->max_frequency == 2002000 ||
 				   range->max_frequency == 1536000 ||
