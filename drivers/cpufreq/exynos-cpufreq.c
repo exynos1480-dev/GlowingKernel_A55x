@@ -1423,10 +1423,10 @@ static int init_domain(struct exynos_cpufreq_domain *domain, struct device_node 
 	if (!of_property_read_u32(dn, "min-freq", &freq))
 		domain->min_freq = max(domain->min_freq, freq);
 
-	if (domain->id == 1) { // BIG
-			domain->boot_freq = 3000000;
-		} else if (domain->id == 0) {
-			domain->boot_freq = 22000000;
+	if (domain->id == 2) { // BIG
+			domain->boot_freq = 29000000;
+		} else if (domain->id == 3) { // LITTLE
+			domain->boot_freq = 24900000;
 	}
 
 	/* Get freq-table from device tree and cut the out of range */

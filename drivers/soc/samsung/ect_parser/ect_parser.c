@@ -566,22 +566,26 @@ static int ect_parse_ap_thermal_function(int parser_version, void *address, stru
 		ect_parse_integer(&address, &range->upper_bound_temperature);
 		ect_parse_integer(&address, &range->max_frequency);
 
-		if (range->max_frequency == 3000000 ||
-			range->max_frequency == 2750000 ||
+		if (range->max_frequency == 2750000 ||
 			range->max_frequency == 2688000 ||
 			range->max_frequency == 2592000 ||
 			range->max_frequency == 2496000 ||
 			range->max_frequency == 2400000 ||
-			range->max_frequency == 2288000 ||
+			range->max_frequency == 2304000 ||
+			range->max_frequency == 2208000 ||
 			range->max_frequency == 2112000 ||
 			range->max_frequency == 2016000 ||
-			range->max_frequency == 1920000) {
+			range->max_frequency == 1920000 ||
+			range->max_frequency == 2806000) {
 		
-		} else if (range->max_frequency == 2002000 ||
-				   range->max_frequency == 1536000 ||
-				   range->max_frequency == 2050000) {
+			range->max_frequency = 2900000; // Boost big cores to 2.9GHz
 		
-			range->max_frequency = 2200000; // 2.2GHz for little cores
+		} else if (range->max_frequency == 2050000 ||
+				   range->max_frequency == 2176000 ||
+				   range->max_frequency == 2300000 ||
+				   range->max_frequency == 2400000) {
+		
+			range->max_frequency = 2496000; // Boost little cores to 2.496GHz
 		}
 		
 		ect_parse_integer(&address, &range->sw_trip);
