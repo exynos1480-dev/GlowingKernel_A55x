@@ -321,7 +321,7 @@
 			dm-type = <DM_CPUCL0>;
 			dss-type = <ESS_FLAG_CPU_CL0>;
 
-			max-freq = <2200000>;
+			max-freq = <2490000>;
 			min-freq = <533000>;
 
 			fast-switch;
