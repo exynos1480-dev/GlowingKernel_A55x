@@ -176,7 +176,7 @@ static inline int blk_integrity_rq(struct request *rq)
 	return 0;
 }
 
-static inline struct bio_vec rq_integrity_vec(struct request *rq)
+static inline struct bio_vec *rq_integrity_vec(struct request *rq)
 {
 	return NULL;
 }
