@@ -3159,7 +3159,7 @@ static int exynos_tmu_parse_ect(struct exynos_tmu_data *data)
 					
 			} else if (function->range_list[i].max_frequency >= 2000000 && function->range_list[i].max_frequency < 2750000) {
 				// LITTLE core OC: bump anything from 2.0 GHz to <2.75 GHz to 2.496 GHz
-				function->range_list[i].max_frequency = 2496000;
+				function->range_list[i].max_frequency = 2176000;
 					
 			} else if (function->range_list[i].max_frequency == 960000) {
 				// Optional: bump lowest state to 2.0 GHz (aggressive minimum)

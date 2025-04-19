@@ -1414,9 +1414,12 @@ static int init_domain(struct exynos_cpufreq_domain *domain, struct device_node 
 	 * selected to smaller one between the value defined in device
 	 * tree and CAL. In case of min-freq, min frequency is selected
 	 * to bigger one.
-	 */
-			domain->max_freq = cal_dfs_get_max_freq(domain->cal_id);
-			domain->min_freq = cal_dfs_get_min_freq(domain->cal_id);
+	 */    
+	        if (domain->id == 0) { 
+			    domain->max_freq = 2900000;
+			if (domain->id == 1) {
+				domain->max_freq = 2176000;
+			}
 
 			if (!of_property_read_u32(dn, "max-freq", &freq))
 				domain->max_freq = min(domain->max_freq, freq);
@@ -1426,9 +1429,9 @@ static int init_domain(struct exynos_cpufreq_domain *domain, struct device_node 
 			if (domain->id == 0) { // BIG
 				    freq_table[raw_table_size++] = 2900000;
 				} else if (domain->id == 1) { // LITTLE
-					freq_table[raw_table_size++] = 2496000;
+					freq_table[raw_table_size++] = 2176000;
 			}
-
+	
 	/* Get freq-table from device tree and cut the out of range */
 	raw_table_size = of_property_count_u32_elems(dn, "freq-table");
 	if (of_property_read_u32_array(dn, "freq-table", freq_table, raw_table_size)) {

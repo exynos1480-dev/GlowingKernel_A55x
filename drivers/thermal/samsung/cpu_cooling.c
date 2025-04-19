@@ -703,7 +703,7 @@ static struct thermal_zone_device* parse_ect_cooling_level(struct thermal_coolin
 		} else if (function->range_list[i].max_frequency >= 2000000 &&
 				   function->range_list[i].max_frequency < 2750000) {
 			// LITTLE core range: bump anything at or above 2.0GHz up to 2.496GHz
-			function->range_list[i].max_frequency = 2496000;
+			function->range_list[i].max_frequency = 2176000;
 		
 		} else if (function->range_list[i].max_frequency == 960000) {
 			// Bonus bump from 960MHz to 2.0GHz
